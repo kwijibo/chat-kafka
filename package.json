@@ -1,0 +1,19 @@
+{
+  "name": "KafkaChatApp",
+  "version": "1.0.0",
+  "description": "trying out apache kafka with a simple application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Keith Alexander",
+  "license": "ISC",
+  "dependencies": {
+    "cli": "^0.11.1",
+    "colors": "^1.1.2",
+    "data.task": "^3.0.0",
+    "franz-kafka": "^0.7.5",
+    "kafka-node": "^0.2.29",
+    "ramda": "^0.18.0"
+  }
+}
