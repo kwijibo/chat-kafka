@@ -1,8 +1,17 @@
 #!/usr/bin/env node
+//get the username to use in the chats
+var username = process.argv[2]
+  , hostname = process.argv[3]
+if(!username || !hostname){
+  //quit if no username
+  console.warn("You must provide a username and hostname:> node chat.js {yourname} {hostname}")
+  process.exit()
+}
+
 var kafka = require('kafka-node')
   ,  Producer = kafka.Producer
   ,  Consumer = kafka.Consumer
-  ,  client = new kafka.Client()
+  ,  client = new kafka.Client(hostname+':2181')
   ,  producer = new Producer(client)
   ,  consumer = new Consumer(client, [{topic:'chatlog', partition:0}], {fromOffset:1})
   ,  Task = require('data.task')
@@ -10,13 +19,6 @@ var kafka = require('kafka-node')
   ,  colors = require('colors/safe')
   ,  R = require('ramda')
   
-//get the username to use in the chats
-var username = process.argv[2]
-if(!username){
-  //quit if no username
-  console.warn("You must provide a username:> node chat.js {yourname}")
-  process.exit()
-}
 
 // create the topic for chatlogs
 var createTopics =  taskify.bind(undefined,producer, 'createTopics', ['chatlog'])
@@ -47,6 +49,7 @@ var colourName = R.pipe(
 var displayMessage = R.pipe(R.prop('value'), colourName, console.log)
 
 consumer.on('message', displayMessage)
+consumer.on('error', console.error)
 producer.on('error', console.error)
 producerReady.then(createTopics)
              .then(sendUserInput)
