@@ -28,5 +28,9 @@ Should be able to make the kafka-node node.js client create topics, but
 didn't get this to work yet. Had to create the `chatlog` topic using the
 shellscript `kafka/bin/kafka-topics.sh`
 
+##Timestamps ?
+
+Kafka doesn't seem to wrap up, or add metadata to the messages, such as timestamps. Timestamps could be useful for consumers, but if created by producers, what guarantee is there that clocks are synched?
+
 
 
